@@ -1,6 +1,6 @@
 // importazione file
 import { useState } from 'react'
-
+import films from './data/film'
 
 function App() {
 

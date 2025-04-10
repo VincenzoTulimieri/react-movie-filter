@@ -5,24 +5,32 @@ import { useEffect, useState } from 'react'
 export default function Main(props) {
     const filmsList = props.filmsList
     const [films, setFilm] = useState(filmsList)
+    const [filteredFilm, setFilteredFilm] = useState(films);
     const [selectGenre, setSelectGenre] = useState('')
 
     useEffect(()=>{
-        console.log(filmsList)
-
         let selectedFilms= films
 
         if(selectGenre !== ''){
             selectedFilms= selectedFilms.filter(film => film.genre === selectGenre)
         }
-        setFilm(selectedFilms)
-        console.log(selectedFilms)
+        setFilteredFilm(selectedFilms)
 
-    },[selectGenre,])
+    },[selectGenre])
 
     return (
         <main>
-            <div className="container">
+            <div className="container flex">
+                <ul className="list-film">
+                    {filteredFilm.map((film, index) => {
+                        return (
+                            <li key={index}>
+                                <h2><strong>{film.title}</strong></h2>
+                                <p className='li-text'><strong>{film.genre}</strong></p>
+                            </li>
+                        )
+                    })}
+                </ul>
                 <select className='filter' onChange={(event)=>{setSelectGenre(event.target.value)}}>
                     <option value=''>---</option>
                     <option>Fantascienza</option>
@@ -30,17 +38,6 @@ export default function Main(props) {
                     <option>Romantico</option>
                     <option>Azione</option>
                 </select>
-                <hr />
-                <ul className="list-film">
-                    {films.map((film, index) => {
-                        return (
-                            <li key={index}>
-                                <h1>{film.title}</h1>
-                                <p><strong>{film.genre}</strong></p>
-                            </li>
-                        )
-                    })}
-                </ul>
             </div>
         </main>
     )
